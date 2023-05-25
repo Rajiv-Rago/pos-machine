@@ -1,0 +1,101 @@
+{% load static %}
+<!doctype html>
+<html lang="en"> 
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.79.0">
+    <title>POS DB</title>
+
+
+  
+    <!-- Bootstrap core CSS -->
+   <link href="{% static '/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+   <script src="{% static '/bootstrap/jquery-3.4.1.slim.min.js' %}"></script>
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+
+      .lineamount {
+        width: 30%
+      }
+      }
+
+    </style>
+
+    
+    <!-- Custom styles for this template -->
+    <link href="/bootstrap/openpos/form-validation.css" rel="stylesheet">
+  </head>
+  <body class="bg-light">
+    
+<div class="container">
+  <main>
+    <div class="py-5 text-center">
+      <a href="{% url 'openpos' %}"><img class="d-block mx-auto mb-4" src="{% static 'images/logo.png' %}" alt="" width="72" height="57"></a>
+      <h2>POS Screen</h2>
+    </div>
+
+      <div class="col-md-7 col-lg-8">
+        <h4 class="mb-3">Items Avail a Bowl</h4>
+        <form class="needs-validation" novalidate>
+
+            <a class="btn btn-primary itembut" href="{% url 'add_item' %}">Add Item</a>
+          <div class="row g-3">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Item Name</th>
+                  <th scope="col">Item Price</th>
+                  <th scope="col">Quantity</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <form method="GET" action="{% url 'item_list' %}">{% csrf_token %}
+                  {% for item in items %}
+                  <tr>
+                    <td class = "iname">{{ item.item_name }}</td>
+                    <td class = "iprice">PHP {{ item.item_price }}</td>
+                    <td class="stock-quantity">{{item.stock_quantity}}</td>
+                    <td>
+                      <a class="btn btn-primary itembut" href="{% url 'edit_item' pk=item.pk %}">Edit</a>
+                      <button class="btn btn-danger itembut" name="ID" value="{{ item.pk }}" type="submit" formmethod="POST">Delete</button>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </form>
+              </tbody>
+            </table>
+          </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="my-5 pt-5 text-muted text-center text-small">
+    <p class="mb-1">&copy; 2017–2020 POS COmpany</p>
+    <ul class="list-inline">
+      <li class="list-inline-item"><a href="{% url 'item_list' %}">Configure Items</a></li>
+    </ul>
+  </footer>
+</div>
+
+      <script src="static/bootstrap/js/bootstrap.bundle.min.js"></script>
+    
+  </body>
+</html>
+
+
